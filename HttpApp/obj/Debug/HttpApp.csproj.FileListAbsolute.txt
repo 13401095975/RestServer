@@ -1,0 +1,7 @@
+F:\workspace\HttpApp\HttpApp\obj\Debug\HttpApp.csprojAssemblyReference.cache
+F:\workspace\HttpApp\HttpApp\obj\Debug\HttpApp.csproj.CoreCompileInputs.cache
+F:\workspace\HttpApp\HttpApp\bin\Debug\HttpApp.exe.config
+F:\workspace\HttpApp\HttpApp\bin\Debug\HttpApp.exe
+F:\workspace\HttpApp\HttpApp\bin\Debug\HttpApp.pdb
+F:\workspace\HttpApp\HttpApp\obj\Debug\HttpApp.exe
+F:\workspace\HttpApp\HttpApp\obj\Debug\HttpApp.pdb
