@@ -70,7 +70,7 @@
     <Compile Include="Http\QueryParameter.cs" />
     <Compile Include="RestApplicationServer.cs" />
     <Compile Include="RouteHandler\ApiRouteHandler.cs" />
-    <Compile Include="RouteHandler\FileSystemRouteHandler.cs" />
+    <Compile Include="RouteHandler\FileRouteHandler.cs" />
     <Compile Include="RouteHandler\IRouteHandler.cs" />
     <Compile Include="Common\Serializer\JsonSerializer.cs" />
     <Compile Include="Config\ServerConfig.cs" />

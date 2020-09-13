@@ -36,13 +36,13 @@ namespace RestServer
 
             if (configuration == null || configuration.StaticFileConfigurations == null || configuration.StaticFileConfigurations.Count == 0)
             {
-                filterChain.AddRouteHandler(new FileSystemRouteHandler());
+                filterChain.AddRouteHandler(new FileRouteHandler());
                 logger.Info("add default static file mapping " + ServerConfig.DefaultStaticFilePrefix + " to " + ServerConfig.DefaultServerRoot);
             }
             else {
                 foreach (StaticFileConfiguration staticFileConfiguration in configuration.StaticFileConfigurations)
                 {
-                    filterChain.AddRouteHandler(new FileSystemRouteHandler(staticFileConfiguration));
+                    filterChain.AddRouteHandler(new FileRouteHandler(staticFileConfiguration));
                     logger.Info("add static file mapping " + staticFileConfiguration.Prefix + " to " + staticFileConfiguration.BaseRoot);
                 }
             }
