@@ -7,6 +7,8 @@ namespace RestServer.RestAttribute
     {
         public string Name { get; set; }
 
+        public ComponentAttribute() { }
+
         public ComponentAttribute(string name) {
             this.Name = name;
         }

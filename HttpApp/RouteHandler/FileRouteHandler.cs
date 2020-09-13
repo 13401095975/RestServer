@@ -8,22 +8,22 @@ using System.Text;
 
 namespace RestServer.RouteHandler
 {
-    public class FileSystemRouteHandler : IRouteHandler
+    public class FileRouteHandler : IRouteHandler
     {
         public string Prefix { get; set; } = ServerConfig.DefaultServerRoot;
         public string BaseRoot { get; set; } = ServerConfig.DefaultServerRoot;
         public bool ShowDirectories { get; set; } = true;
 
-        public FileSystemRouteHandler() { 
+        public FileRouteHandler() { 
         }
 
-        public FileSystemRouteHandler(StaticFileConfiguration configuration) {
+        public FileRouteHandler(StaticFileConfiguration configuration) {
             this.Prefix = configuration.Prefix;
             this.BaseRoot = configuration.BaseRoot;
             this.ShowDirectories = configuration.ShowDirectories;
         }
 
-        public FileSystemRouteHandler(string Prefix, string BaseRoot, bool ShowDirectories) {
+        public FileRouteHandler(string Prefix, string BaseRoot, bool ShowDirectories) {
             this.Prefix = Prefix;
             this.BaseRoot = BaseRoot;
             this.ShowDirectories = ShowDirectories;

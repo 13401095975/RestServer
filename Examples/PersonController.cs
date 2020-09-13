@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Examples
 {
-    [Component("PersonRoute")]
+    [Component("PersonController")]
     public class PersonController
     {
         [Autowired]

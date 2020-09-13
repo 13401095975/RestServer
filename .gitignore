@@ -1,5 +1,5 @@
 ﻿HttpApp/obj/*
 HttpApp/bin/*
 .vs/
-bin/*
-obj/*
+Examples/bin/*
+Examples/obj/*

@@ -8,12 +8,13 @@ namespace Examples
     {
         static void Main(string[] args)
         {
-            new RestApplicationServer().run(new RestConfiguration { 
-                StaticFileConfigurations = new List<StaticFileConfiguration>() { 
-                    new StaticFileConfiguration("/e", "E:\\"),
-                    new StaticFileConfiguration("/f", "F:\\")
-                }
-            });
+            new RestApplicationServer().run();
+           //new RestApplicationServer().run(new RestConfiguration { 
+           //     StaticFileConfigurations = new List<StaticFileConfiguration>() { 
+           //         new StaticFileConfiguration("/e", "E:\\"),
+           //         new StaticFileConfiguration("/f", "F:\\")
+           //     }
+           // });
         }
     }
 }
