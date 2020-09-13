@@ -1,9 +1,9 @@
-﻿using SimpleHttpServer.Models;
+﻿using RestServer.Http;
 
-namespace HttpApp.Filter
+namespace RestServer.Filter
 {
     public interface IFilter
     {
-        void Filter(HttpRequest request,ref HttpResponse response, FilterChain next);
+        void Filter(HttpRequest request,ref HttpResponse response, FilterChain chain, int curPos);
     }
 }

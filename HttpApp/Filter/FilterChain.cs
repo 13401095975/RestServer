@@ -1,41 +1,50 @@
-﻿using HttpApp.RouteHandlers;
-using SimpleHttpServer.Models;
+﻿using RestServer.Http;
+using RestServer.RouteHandler;
 using System.Collections.Generic;
 
-namespace HttpApp.Filter
+namespace RestServer.Filter
 {
     public class FilterChain
     {
-        public SortedList<int, IFilter> FilterList = new SortedList<int, IFilter>();
-
-        private int pos = 0;
+        public SortedList<int, FilterRoute> FilterList = new SortedList<int, FilterRoute>();
 
         public List<IRouteHandler> RouteHandlerList = new List<IRouteHandler>();
 
-        public void AddFilter(int key, IFilter filter) {
-            FilterList.Add(key, filter);
+        public void AddFilter(int key, string prefix,IFilter filter) {
+            FilterList.Add(key, new FilterRoute(prefix, filter));
         }
 
         public void AddRouteHandler(IRouteHandler handler) {
             RouteHandlerList.Add(handler);
         }
 
-        public void doFilter(HttpRequest request,ref HttpResponse response) { 
-            if(pos < FilterList.Count)
-            {
-                IFilter filter = FilterList.Values[pos++];
+        public void Handle(HttpRequest request, ref HttpResponse response) {
+            doFilter(request, ref response, 0);
+        }
 
-                filter.Filter(request,ref response, this);
-                
-            }
-            //过滤器执行完成后，调用route
-            foreach (IRouteHandler routeHandler in RouteHandlerList) {
-                if (routeHandler.IsMatch(request)) {
-                    routeHandler.Handler(request,ref response);
-                    break;
+        public void doFilter(HttpRequest request,ref HttpResponse response, int curPos) {
+            if (curPos >= FilterList.Count) {
+                //过滤器执行完成后，调用route
+                foreach (IRouteHandler routeHandler in RouteHandlerList)
+                {
+                    if (routeHandler.IsMatch(request))
+                    {
+                        routeHandler.Handler(request, ref response);
+                        break;
+                    }
                 }
+                return;
             }
-            pos = 0;
+            FilterRoute filterRoute = FilterList.Values[curPos];
+            if (request.Path.StartsWith(filterRoute.Prefix)) {
+                IFilter filter = filterRoute.Filter;
+                filter.Filter(request, ref response, this, curPos + 1);
+            }
+            else
+            {
+                doFilter(request, ref response, curPos + 1);
+            }
+            
             return;
         }
     }

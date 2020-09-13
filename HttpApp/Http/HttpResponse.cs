@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace SimpleHttpServer.Models
+namespace RestServer.Http
 {
     public enum HttpStatusCode
     {
@@ -25,9 +25,9 @@ namespace SimpleHttpServer.Models
     {
         public string StatusCode { get; set; }
         public string StatusDescription { get; set; }
-        public byte[] Content { get; set; }
+        public byte[] Data { get; set; }
 
-        public Dictionary<string, string> Headers { get; set; }
+        public HttpHeaders Headers { get; set; }
 
         public string ContentAsUTF8
         {
@@ -42,12 +42,12 @@ namespace SimpleHttpServer.Models
             {
                 encoding = Encoding.UTF8;
             }
-            Content = encoding.GetBytes(content);
+            Data = encoding.GetBytes(content);
         }
 
         public HttpResponse()
         {
-            this.Headers = new Dictionary<string, string>();
+            this.Headers = new HttpHeaders();
         }
 
         public override string ToString()

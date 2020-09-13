@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HttpApp
+namespace RestServer
 {
     public class ClassInstanceContext
     {
@@ -17,6 +17,16 @@ namespace HttpApp
             object instance = Activator.CreateInstance(t);
             map.Add(t.FullName, instance);
             return instance;
+        }
+
+        public static void AddBean(Type t) {
+            if (map.Keys.Contains(t.FullName))
+            {
+                return;
+            }
+
+            object instance = Activator.CreateInstance(t);
+            map.Add(t.FullName, instance);
         }
     }
 }
