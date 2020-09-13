@@ -18,7 +18,7 @@ namespace HttpApp
 
         public static String ACCEPT = "Accept";
 
-        public static String ACCEPT_CHARSET = "Accept-Charset";
+        public static string ACCEPT_CHARSET = "Accept-Charset";
 
         public static String ACCEPT_ENCODING = "Accept-Encoding";
 

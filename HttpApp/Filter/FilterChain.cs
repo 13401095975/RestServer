@@ -1,36 +1,40 @@
-﻿using SimpleHttpServer.Models;
-using System;
+﻿using HttpApp.RouteHandlers;
+using SimpleHttpServer.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HttpApp.Filter
 {
     public class FilterChain
     {
-        public SortedList<int, IFilter> filterList = new SortedList<int, IFilter>();
+        public SortedList<int, IFilter> FilterList = new SortedList<int, IFilter>();
 
         private int pos = 0;
 
-        public RouteDispatcher dispatcher { get; set; }
+        public List<IRouteHandler> RouteHandlerList = new List<IRouteHandler>();
 
         public void AddFilter(int key, IFilter filter) {
-            filterList.Add(key, filter);
+            FilterList.Add(key, filter);
         }
 
-
+        public void AddRouteHandler(IRouteHandler handler) {
+            RouteHandlerList.Add(handler);
+        }
 
         public void doFilter(HttpRequest request,ref HttpResponse response) { 
-            if(pos < filterList.Count)
+            if(pos < FilterList.Count)
             {
-                IFilter filter = filterList.Values[pos++];
+                IFilter filter = FilterList.Values[pos++];
 
                 filter.Filter(request,ref response, this);
                 
             }
             //过滤器执行完成后，调用route
-            dispatcher.dispatcher(request,ref response);
+            foreach (IRouteHandler routeHandler in RouteHandlerList) {
+                if (routeHandler.IsMatch(request)) {
+                    routeHandler.Handler(request,ref response);
+                    break;
+                }
+            }
             pos = 0;
             return;
         }

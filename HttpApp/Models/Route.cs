@@ -1,28 +1,38 @@
-﻿// Copyright (C) 2016 by Barend Erasmus and donated to the public domain
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 
 namespace SimpleHttpServer.Models
 {
     public class Route
     {
-        public string Name { get; set; } // descriptive name for debugging
-        
+        /**
+         * 请求方法
+         */
         public string Method { get; set; }
+
+        /*
+         * 请求路径
+         */
+        public string Path { get; set; }
+
         public bool isRegex { get; set; } = false;
 
+        /**
+         * 对应类的实例信息
+         */
         public object instance { get; set; }
+        /**
+         * 对应的方法信息
+         */
         public MethodInfo method { get; set; }
 
+        /**
+         * 所有路由的方法的参数必须为 HttpRequest request
+         */
         public object Handler(HttpRequest request) {
             return method.Invoke(instance, new object[] { request });
         }
 
-        public string Path{ get; set; }
+        
         
     }
 }

@@ -1,19 +1,18 @@
-﻿using SimpleHttpServer;
+﻿using HttpApp.RouteHandlers;
+using HttpApp.Serializer;
+using SimpleHttpServer;
 using SimpleHttpServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 
 namespace HttpApp
 {
-    public class RouteDispatcher
+    public class ApiRouteHandler : IRouteHandler
     {
         private List<Route> Routes = new List<Route>();
 
-        public RouteDispatcher(List<Route> routeList)
+        public ApiRouteHandler(List<Route> routeList)
         {
             this.Routes.AddRange(routeList);
         }
@@ -24,10 +23,10 @@ namespace HttpApp
         }
 
         public void dispatcher(HttpRequest request, ref HttpResponse response) {
-            RouteRequest(request, ref response);
+            Handler(request, ref response);
         }
 
-        protected void RouteRequest(HttpRequest request, ref HttpResponse response)
+        public void Handler(HttpRequest request, ref HttpResponse response)
         {
 
             List<Route> routes = Routes.Where(x => x.Path == request.Path).ToList();
@@ -48,7 +47,7 @@ namespace HttpApp
             try
             {
                 object o = route.Handler(request);
-                HttpBuilder.Ok(ref response, Serialize(o));
+                HttpBuilder.Ok(ref response, JsonSerializer.ToJson(o));
                 return;
             }
             catch (Exception ex)
@@ -58,16 +57,9 @@ namespace HttpApp
             }
         }
 
-        public string Serialize(object data)
+        public bool IsMatch(HttpRequest request)
         {
-            if (data is string || data is int || data is String || data is Int16)
-            {
-                return data.ToString();
-            }
-            else
-            {
-                return new JavaScriptSerializer().Serialize(data);
-            }
+            return true;
         }
     }
 }

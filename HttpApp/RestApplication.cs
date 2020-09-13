@@ -3,6 +3,7 @@ using HttpApp.Filter;
 using HttpApp.Logger;
 using SimpleHttpServer;
 using SimpleHttpServer.Models;
+using SimpleHttpServer.RouteHandlers;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -23,7 +24,8 @@ namespace HttpApp
 
             List<Route> list = AutoComponentScan(AppDomain.CurrentDomain.GetAssemblies());
 
-            filterChain.dispatcher = new RouteDispatcher(list);
+            filterChain.AddRouteHandler(new FileSystemRouteHandler());
+            filterChain.AddRouteHandler(new ApiRouteHandler(list));
 
             HttpServer httpServer = new HttpServer(ServerConfig.Port, filterChain);
 

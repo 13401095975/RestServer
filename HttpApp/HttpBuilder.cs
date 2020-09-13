@@ -69,15 +69,23 @@ namespace SimpleHttpServer
 
         public static void NotFound(ref HttpResponse response)
         {
+            NotFound(ref response, "");
+        }
+        public static void NotFound(ref HttpResponse response, string message)
+        {
             response.StatusDescription = "NotFound";
             response.StatusCode = "404";
-            response.ContentAsUTF8 = "";
+            response.ContentAsUTF8 = message;
         }
         public static void NotAllowed(ref HttpResponse response)
         {
+            NotAllowed(ref response, "");
+        }
+        public static void NotAllowed(ref HttpResponse response, string message)
+        {
             response.StatusDescription = "Method Not Allowed";
             response.StatusCode = "405";
-            response.ContentAsUTF8 = "";
+            response.ContentAsUTF8 = message;
         }
         public static void Ok(ref HttpResponse response, string content)
         {

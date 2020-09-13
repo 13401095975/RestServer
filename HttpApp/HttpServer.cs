@@ -1,13 +1,6 @@
-﻿// Copyright (C) 2016 by David Jeske, Barend Erasmus and donated to the public domain
-
+﻿
 using HttpApp.Filter;
 using HttpApp.Logger;
-using SimpleHttpServer;
-using SimpleHttpServer.Models;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -26,7 +19,6 @@ namespace SimpleHttpServer
         public ILogger logger { get; set; }
         #endregion
 
-        //private static readonly ILog log = LogManager.GetLogger(typeof(HttpServer));
 
         #region Public Methods
         public HttpServer(int port, FilterChain filterChain)
@@ -35,7 +27,6 @@ namespace SimpleHttpServer
             this.Processor = new HttpProcessor();
             Processor.SetFilterChain(filterChain);
 
-            //logger.Info("server started at port " + port);
         }
 
         public void Listen()
@@ -52,6 +43,10 @@ namespace SimpleHttpServer
                 thread.Start();
                 Thread.Sleep(1);
             }
+        }
+
+        public void Shutdown() {
+            IsActive = false;
         }
 
         #endregion

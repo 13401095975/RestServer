@@ -9,11 +9,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web.Script.Serialization;
 
 namespace SimpleHttpServer
 {
@@ -21,8 +18,6 @@ namespace SimpleHttpServer
     {
 
         #region Fields
-
-        private List<Route> Routes = new List<Route>();
 
         private FilterChain filterChain { get; set; }
 
@@ -37,29 +32,23 @@ namespace SimpleHttpServer
 
         #endregion
 
+
+
+        #region Public Methods
+
         public void SetFilterChain(FilterChain filterChain)
         {
             this.filterChain = filterChain;
         }
 
-        #region Public Methods
         public void HandleClient(TcpClient tcpClient)
         {
             Stream inputStream = GetInputStream(tcpClient);
             Stream outputStream = GetOutputStream(tcpClient);
-            HttpRequest request = GetRequest(inputStream);
+            HttpRequest request = ParseRequest(inputStream);
 
-            // route and handle the request...
-            HttpResponse response = new HttpResponse();// = RouteRequest(request);
+            HttpResponse response = new HttpResponse();
             filterChain.doFilter(request, ref response);
-
-            if (response.Content == null)
-            {
-                if (response.StatusCode != HttpStatusCode.Ok.ToString())
-                {
-                    response.ContentAsUTF8 = string.Format("{0} {1} <p> {2}", response.StatusCode, request.Url, response.StatusDescription);
-                }
-            }
 
             GenerateResponse(request, ref response);
             WriteResponse(outputStream, response);
@@ -95,7 +84,7 @@ namespace SimpleHttpServer
 
             byte[] content = response.Content;
 
-            if (ServerConfig.Compress && response.Content.Length > ServerConfig.minCompressSize)
+            if (ServerConfig.EnableCompress && response.Content.Length > ServerConfig.MinCompressSize)
             {
                 content = Compress(content);
                 response.Headers["Content-Encoding"] = "gzip";
@@ -139,21 +128,11 @@ namespace SimpleHttpServer
             }
         }
 
-        public void AddRoute(Route route)
-        {
-            this.Routes.Add(route);
-        }
-
-        public void AddRoutes(List<Route> routeList)
-        {
-            this.Routes.AddRange(routeList);
-        }
-
         #endregion
 
         #region Private Methods
 
-        private static string Readline(Stream stream)
+        private static string ReadHttpLine(Stream stream)
         {
             int next_char;
             string data = "";
@@ -168,12 +147,6 @@ namespace SimpleHttpServer
             return data;
         }
 
-        private static void Write(Stream stream, string text)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(text);
-            stream.Write(bytes, 0, bytes.Length);
-        }
-
         protected virtual Stream GetOutputStream(TcpClient tcpClient)
         {
             return tcpClient.GetStream();
@@ -185,10 +158,10 @@ namespace SimpleHttpServer
         }
 
 
-        private HttpRequest GetRequest(Stream inputStream)
+        private HttpRequest ParseRequest(Stream inputStream)
         {
             //Read Request Line
-            string request = Readline(inputStream);
+            string request = ReadHttpLine(inputStream);
 
             string[] tokens = request.Split(' ');
             if (tokens.Length != 3)
@@ -202,7 +175,7 @@ namespace SimpleHttpServer
             //Read Headers
             Dictionary<string, string> headers = new Dictionary<string, string>();
             string line;
-            while ((line = Readline(inputStream)) != null)
+            while ((line = ReadHttpLine(inputStream)) != null)
             {
                 if (line.Equals(""))
                 {

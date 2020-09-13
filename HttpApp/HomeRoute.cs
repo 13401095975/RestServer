@@ -1,10 +1,12 @@
 ﻿using HttpApp.attribute;
+using HttpApp.Serializer;
 using SimpleHttpServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace HttpApp
 {
@@ -19,10 +21,18 @@ namespace HttpApp
         }
 
         [RequestMapping("GET", "/info")]
-        public string info(HttpRequest request)
+        public Student info(HttpRequest request)
         {
-            return "Hello from info*";
+            return new Student("xieyun", 30);
             
+        }
+        [RequestMapping("POST", "/info")]
+        public string create(HttpRequest request)
+        {
+            Student s = JsonSerializer.FromJson<Student>(request.Content);
+            Console.WriteLine(s.ToString());
+            return "ok";
+
         }
     }
 }
