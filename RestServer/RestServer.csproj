@@ -56,6 +56,7 @@
     <Compile Include="Common\Logger\LoggerFactory.cs" />
     <Compile Include="Common\Logger\LoggerType.cs" />
     <Compile Include="Config\RestConfiguration.cs" />
+    <Compile Include="Config\HttpConfig.cs" />
     <Compile Include="Config\StaticFileConfiguration.cs" />
     <Compile Include="Filter\CorsFilter.cs" />
     <Compile Include="Filter\ProcessChain.cs" />
