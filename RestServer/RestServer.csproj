@@ -48,16 +48,21 @@
   <ItemGroup>
     <Compile Include="Attribute\AutowiredAttribute.cs" />
     <Compile Include="Attribute\ComponentAttribute.cs" />
+    <Compile Include="Attribute\RequestBodyAttribute.cs" />
+    <Compile Include="Attribute\RequestParamAttribute.cs" />
     <Compile Include="Attribute\WebFilterAttribute.cs" />
     <Compile Include="Attribute\RequestMappingAttribute.cs" />
     <Compile Include="ClassInstanceContext.cs" />
+    <Compile Include="Common\Logger\LoggerFactory.cs" />
     <Compile Include="Config\RestConfiguration.cs" />
     <Compile Include="Config\StaticFileConfiguration.cs" />
+    <Compile Include="Filter\CorsFilter.cs" />
     <Compile Include="Filter\FilterChain.cs" />
     <Compile Include="Filter\FilterRoute.cs" />
     <Compile Include="Filter\IFilter.cs" />
     <Compile Include="Common\HttpBuilder.cs" />
     <Compile Include="Http\HttpHeaders.cs" />
+    <Compile Include="Http\HttpMethod.cs" />
     <Compile Include="Http\HttpProcessor.cs" />
     <Compile Include="Http\HttpServer.cs" />
     <Compile Include="Http\MimeType.cs" />

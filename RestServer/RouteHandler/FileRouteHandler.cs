@@ -61,7 +61,7 @@ namespace RestServer.RouteHandler
 
             response.StatusCode = "200";
             response.StatusDescription = "Ok";
-            response.Headers.Add("Content-Type", MimeType.GetOrDefault(file_extension, "application/octet-stream"));
+            response.Headers.SetContentType(MimeType.GetOrDefault(file_extension, "application/octet-stream"));
             response.Data = File.ReadAllBytes(local_path);
 
         }
@@ -84,7 +84,7 @@ namespace RestServer.RouteHandler
                 var filename = file_info.Name;
                 output.Append(string.Format("<a href=\"{0}\">{1}</a> <br>", request.Path+Path.DirectorySeparatorChar.ToString()+filename, filename));
             }
-            response.Headers.Add("Content-Type", "text/html;charset=utf-8");
+            response.Headers.SetContentTypeWithDefaultCharset("text/html");
             HttpBuilder.Ok(ref response, output.ToString());
 
         }

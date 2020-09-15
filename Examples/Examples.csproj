@@ -56,7 +56,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HttpApp\RestServer.csproj">
+    <ProjectReference Include="..\RestServer\RestServer.csproj">
       <Project>{9183cfae-37a3-439e-b1f9-ce6d194f2156}</Project>
       <Name>RestServer</Name>
     </ProjectReference>

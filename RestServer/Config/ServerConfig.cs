@@ -32,5 +32,8 @@ namespace RestServer.Config
         public static string DefaultServerRoot { get; set; } = AppDomain.CurrentDomain.BaseDirectory;
 
         public static string DefaultStaticFilePrefix { get; set; } = "/static";
+
+        public static string DefaultCharsetEncoding { get; set; } = "charset=utf-8";
+
     }
 }

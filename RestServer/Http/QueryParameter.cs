@@ -51,7 +51,7 @@ namespace RestServer.Http
             return null;
         }
 
-        public Int32? GetIntValue(string key)
+        public int? GetIntValue(string key)
         {
             if (map.ContainsKey(key))
             {
@@ -59,6 +59,6 @@ namespace RestServer.Http
             }
             return null;
         }
-
+              
     }
 }

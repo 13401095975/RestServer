@@ -16,23 +16,23 @@ namespace Examples
         private ILogger logger = new ConsoleLogger();
        
         [RequestMapping("GET","/api/person/list")]
-        public List<Person> GetPersonList(HttpRequest request)
+        public List<Person> GetPersonList()
         {
             return personService.GetPersonList();
         }
 
         [RequestMapping("GET", "/api/person")]
-        public Person GetPerson(HttpRequest request)
+        public Person GetPerson([RequestParam("id")]int id)
         {
-            int? id = request.Query.GetIntValue("id");
             logger.Debug("id:"+id);
             return personService.GetPerson((int)id);
         }
         [RequestMapping("POST", "/api/person")]
-        public string Create(HttpRequest request)
+        public string Create([RequestBody] Person person)
         {
-            Person s = JsonSerializer.FromJson<Person>(request.Content);
-            personService.Create(s);
+            logger.Info("person:" + person.ToString());
+            //Person s = JsonSerializer.FromJson<Person>(request.Content);
+            //personService.Create(s);
             return "ok";
 
         }

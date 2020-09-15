@@ -76,7 +76,7 @@ namespace RestServer
                     {
 
                         WebFilterAttribute attribute = item as WebFilterAttribute;
-                        logger.Info("add filter:" + t.FullName);
+                        logger.Info("Mapping filter: " + attribute.Prefix + " onto " + t.FullName);
                         IFilter filter = (IFilter)ClassInstanceContext.GetInstance(t);
 
                         filterChain.AddFilter(attribute.Order, attribute.Prefix, filter);
@@ -117,11 +117,14 @@ namespace RestServer
                             route.Path = attr.Path;
                             route.Method = attr.Method;
 
+                            ParameterInfo[] parmInfo = methodInfo.GetParameters();
+                            
                             object instance = ClassInstanceContext.GetInstance(t);
                             route.instance = instance;
                             route.method = methodInfo;
+                            route.parameterInfo = parmInfo;
 
-                            logger.Info("add route mapping " + route.Method + " " + route.Path + " to " + t.FullName + "." + methodInfo.Name);
+                            logger.Info("Mapped " + route.Method + " " + route.Path + " onto " + t.FullName + "." + methodInfo.Name);
 
                             list.Add(route);
                         }
