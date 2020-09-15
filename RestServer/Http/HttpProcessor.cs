@@ -17,13 +17,13 @@ namespace RestServer.Http
 
         #region Fields
 
-        private FilterChain filterChain { get; set; }
+        private ProcessChain filterChain { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public HttpProcessor(FilterChain filterChain)
+        public HttpProcessor(ProcessChain filterChain)
         {
             this.filterChain = filterChain;
         }
@@ -32,7 +32,7 @@ namespace RestServer.Http
 
         #region Public Methods
 
-        public void SetFilterChain(FilterChain filterChain)
+        public void SetFilterChain(ProcessChain filterChain)
         {
             this.filterChain = filterChain;
         }

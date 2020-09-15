@@ -11,7 +11,7 @@ namespace RestServer.Filter
     [WebFilter(int.MinValue, "/")]
     class CorsFilter : IFilter
     {
-        public void Filter(HttpRequest request, ref HttpResponse response, FilterChain chain, int curPos)
+        public void Filter(HttpRequest request, ref HttpResponse response, ProcessChain chain, int curPos)
         {
             response.Headers.SetAllowCredentials(true);
             if (request.Method.Equals(HttpMethod.OPTIONS.ToString()))

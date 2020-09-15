@@ -28,7 +28,7 @@ namespace RestServer
             logger.Info("RestApplicationServer starting...");
 
             Assembly[] assemblyArray = AppDomain.CurrentDomain.GetAssemblies();
-            FilterChain filterChain = AutoFilterScan(assemblyArray);
+            ProcessChain filterChain = AutoFilterScan(assemblyArray);
 
             List<Route> list = AutoComponentScan(assemblyArray);
 
@@ -57,10 +57,10 @@ namespace RestServer
         }
 
 
-        private FilterChain AutoFilterScan(IEnumerable<Assembly> assemblies)
+        private ProcessChain AutoFilterScan(IEnumerable<Assembly> assemblies)
         {
             logger.Info("auto filter scan start");
-            FilterChain filterChain = new FilterChain();
+            ProcessChain filterChain = new ProcessChain();
             foreach (Assembly assembly in assemblies)
             {
                 foreach (Type t in assembly.GetTypes())

@@ -9,7 +9,7 @@ namespace Examples.Filter
     [WebFilter(1, "/")]
     public class StopWacthFilter : IFilter
     {
-        public void Filter(HttpRequest request,ref HttpResponse response, FilterChain chain, int nextIndex)
+        public void Filter(HttpRequest request,ref HttpResponse response, ProcessChain chain, int nextIndex)
         {
             Stopwatch stopwatch = new Stopwatch();
 

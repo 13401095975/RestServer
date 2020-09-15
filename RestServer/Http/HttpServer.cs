@@ -21,12 +21,12 @@ namespace RestServer.Http
 
 
         #region Public Methods
-        public HttpServer(FilterChain filterChain):this(ServerConfig.Port, filterChain) {
+        public HttpServer(ProcessChain filterChain):this(ServerConfig.Port, filterChain) {
         }
-        public HttpServer(int port, FilterChain filterChain)
+        public HttpServer(int port, ProcessChain processChain)
         {
             this.Port = port;
-            this.Processor = new HttpProcessor(filterChain);
+            this.Processor = new HttpProcessor(processChain);
         }
 
         public void Listen()

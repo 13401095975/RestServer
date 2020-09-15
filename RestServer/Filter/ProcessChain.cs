@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RestServer.Filter
 {
-    public class FilterChain
+    public class ProcessChain
     {
         public SortedList<int, FilterRoute> FilterList = new SortedList<int, FilterRoute>();
 

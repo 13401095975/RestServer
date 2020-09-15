@@ -4,6 +4,6 @@ namespace RestServer.Filter
 {
     public interface IFilter
     {
-        void Filter(HttpRequest request,ref HttpResponse response, FilterChain chain, int curPos);
+        void Filter(HttpRequest request,ref HttpResponse response, ProcessChain chain, int curPos);
     }
 }
