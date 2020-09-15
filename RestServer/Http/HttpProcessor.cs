@@ -75,7 +75,7 @@ namespace RestServer.Http
 
             if (!response.Headers.Contains("Content-Type"))
             {
-                response.Headers.SetContentType(ServerConfig.DefaultContentType);
+                response.Headers.SetContentType(HttpConfig.DefaultContentType);
             }
 
             byte[] content = response.Data;
@@ -83,7 +83,7 @@ namespace RestServer.Http
             if (ServerConfig.EnableCompress && response.Data.Length > ServerConfig.MinCompressSize)
             {
                 content = Compress(content);
-                response.Headers.SetContentEncoding(ServerConfig.DefaultContentEncoding);
+                response.Headers.SetContentEncoding(HttpConfig.DefaultContentEncoding);
             }
 
             response.Headers.SetContentLength(content.Length.ToString());

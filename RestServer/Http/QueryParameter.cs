@@ -59,6 +59,30 @@ namespace RestServer.Http
             }
             return null;
         }
-              
+        public bool? GetBoolValue(string key)
+        {
+            if (map.ContainsKey(key))
+            {
+                return bool.Parse(map[key]);
+            }
+            return null;
+        }
+        public double? GetDoubleValue(string key)
+        {
+            if (map.ContainsKey(key))
+            {
+                return double.Parse(map[key]);
+            }
+            return null;
+        }
+        public long? GetLongValue(string key)
+        {
+            if (map.ContainsKey(key))
+            {
+                return long.Parse(map[key]);
+            }
+            return null;
+        }
+
     }
 }

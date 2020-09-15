@@ -9,8 +9,8 @@ namespace RestServer.RouteHandler
 {
     public class FileRouteHandler : IRouteHandler
     {
-        public string Prefix { get; set; } = ServerConfig.DefaultServerRoot;
-        public string BaseRoot { get; set; } = ServerConfig.DefaultServerRoot;
+        public string Prefix { get; set; } = HttpConfig.DefaultServerRoot;
+        public string BaseRoot { get; set; } = HttpConfig.DefaultServerRoot;
         public bool ShowDirectories { get; set; } = false;
 
         public FileRouteHandler() { 

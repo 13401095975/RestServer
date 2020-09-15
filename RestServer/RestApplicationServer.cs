@@ -36,7 +36,7 @@ namespace RestServer
             if (configuration == null || configuration.StaticFileConfigurations == null || configuration.StaticFileConfigurations.Count == 0)
             {
                 filterChain.AddRouteHandler(new FileRouteHandler());
-                logger.Info("add default static file mapping " + ServerConfig.DefaultStaticFilePrefix + " to " + ServerConfig.DefaultServerRoot);
+                logger.Info("add default static file mapping " + HttpConfig.DefaultStaticFilePrefix + " to " + HttpConfig.DefaultServerRoot);
             }
             else {
                 foreach (StaticFileConfiguration staticFileConfiguration in configuration.StaticFileConfigurations)

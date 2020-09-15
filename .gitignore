@@ -1,5 +1,5 @@
-﻿HttpApp/obj/*
-HttpApp/bin/*
+﻿RestServer/obj/*
+RestServer/bin/*
 .vs/
 Examples/bin/*
 Examples/obj/*

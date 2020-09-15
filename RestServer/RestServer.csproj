@@ -54,10 +54,11 @@
     <Compile Include="Attribute\RequestMappingAttribute.cs" />
     <Compile Include="ClassInstanceContext.cs" />
     <Compile Include="Common\Logger\LoggerFactory.cs" />
+    <Compile Include="Common\Logger\LoggerType.cs" />
     <Compile Include="Config\RestConfiguration.cs" />
     <Compile Include="Config\StaticFileConfiguration.cs" />
     <Compile Include="Filter\CorsFilter.cs" />
-    <Compile Include="Filter\FilterChain.cs" />
+    <Compile Include="Filter\ProcessChain.cs" />
     <Compile Include="Filter\FilterRoute.cs" />
     <Compile Include="Filter\IFilter.cs" />
     <Compile Include="Common\HttpBuilder.cs" />

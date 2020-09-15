@@ -21,7 +21,7 @@ namespace RestServer.Http
 
 
         #region Public Methods
-        public HttpServer(ProcessChain filterChain):this(ServerConfig.Port, filterChain) {
+        public HttpServer(ProcessChain processChain):this(ServerConfig.Port, processChain) {
         }
         public HttpServer(int port, ProcessChain processChain)
         {
@@ -43,6 +43,7 @@ namespace RestServer.Http
                 thread.Start();
                 Thread.Sleep(1);
             }
+            Listener.Stop();
         }
 
         public void Shutdown() {
