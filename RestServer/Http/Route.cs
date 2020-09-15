@@ -98,7 +98,6 @@ namespace RestServer.Http
         {
             MethodInfo methodInfo = typeof(JsonSerializer).GetMethod("FromJson");
             return methodInfo.MakeGenericMethod(new Type[] { parameter.ParameterType }).Invoke(null, new object[] { request.Content });
-            //return JsonSerializer.FromJson<parameter.ParameterType>(request.Content);
         }
 
 

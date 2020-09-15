@@ -13,7 +13,7 @@ namespace Examples
         [Autowired]
         public PersonService personService;
         
-        private ILogger logger = new ConsoleLogger();
+        private ILogger logger = LoggerFactory.GetLogger();
        
         [RequestMapping("GET","/api/person/list")]
         public List<Person> GetPersonList()

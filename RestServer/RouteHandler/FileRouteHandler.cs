@@ -1,7 +1,6 @@
 ﻿using RestServer.Common;
 using RestServer.Config;
 using RestServer.Http;
-using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,7 +11,7 @@ namespace RestServer.RouteHandler
     {
         public string Prefix { get; set; } = ServerConfig.DefaultServerRoot;
         public string BaseRoot { get; set; } = ServerConfig.DefaultServerRoot;
-        public bool ShowDirectories { get; set; } = true;
+        public bool ShowDirectories { get; set; } = false;
 
         public FileRouteHandler() { 
         }
@@ -45,12 +44,20 @@ namespace RestServer.RouteHandler
                     path = path.Substring(1);
                 }
             }
-            var local_path = Path.Combine(this.BaseRoot, path);
+            var localPath = Path.Combine(this.BaseRoot, path);
                             
-            if (ShowDirectories && Directory.Exists(local_path)) {
-                HandlDir(request,ref response,local_path);
-            } else if (File.Exists(local_path)) {
-                HandleFile(request,ref response, local_path);
+            if (ShowDirectories && Directory.Exists(localPath)) {
+                var indexPath = Path.Combine(localPath, "index.html");
+                if (File.Exists(indexPath))
+                {
+                    HandleFile(request, ref response, indexPath);
+                }
+                else {
+                    HandleDir(request, ref response, localPath);
+                }
+                
+            } else if (File.Exists(localPath)) {
+                HandleFile(request,ref response, localPath);
             } else {
                 HttpBuilder.NotFound(ref response, string.Format("Not Found ({0}) handler", request.Path));
             }
@@ -66,7 +73,7 @@ namespace RestServer.RouteHandler
 
         }
 
-        private void HandlDir(HttpRequest request, ref HttpResponse response, string local_path) {
+        private void HandleDir(HttpRequest request, ref HttpResponse response, string local_path) {
             var output = new StringBuilder();
             output.Append(string.Format("<h3> Directory: {0} </h3>",request.Path));
                         

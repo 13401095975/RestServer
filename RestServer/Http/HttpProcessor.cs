@@ -17,7 +17,7 @@ namespace RestServer.Http
 
         #region Fields
 
-        private ProcessChain filterChain { get; set; }
+        private ProcessChain processChain { get; set; }
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace RestServer.Http
 
         public HttpProcessor(ProcessChain filterChain)
         {
-            this.filterChain = filterChain;
+            this.processChain = filterChain;
         }
 
         #endregion
@@ -34,7 +34,7 @@ namespace RestServer.Http
 
         public void SetFilterChain(ProcessChain filterChain)
         {
-            this.filterChain = filterChain;
+            this.processChain = filterChain;
         }
 
         public void HandleClient(TcpClient tcpClient)
@@ -45,7 +45,7 @@ namespace RestServer.Http
             HttpRequest request = ParseRequest(inputStream);
             HttpResponse response = new HttpResponse();
 
-            filterChain.Handle(request, ref response);
+            processChain.Handle(request, ref response);
 
             FormatHttpResponse(request, ref response);
             WriteResponse(outputStream, response);

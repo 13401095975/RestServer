@@ -13,10 +13,9 @@ namespace RestServer
 {
     public class RestApplicationServer
     {
-        private ILogger logger;
+        private ILogger logger = LoggerFactory.GetLogger();
 
         public RestApplicationServer() {
-            logger = new ConsoleLogger();
         }
 
 
