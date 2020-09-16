@@ -1,8 +1,9 @@
-﻿using RestServer.Http;
+﻿
+using RestServer.Filter;
 using RestServer.RouteHandler;
 using System.Collections.Generic;
 
-namespace RestServer.Filter
+namespace RestServer.Http
 {
     public class ProcessChain
     {

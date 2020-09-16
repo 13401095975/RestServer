@@ -59,7 +59,7 @@
     <Compile Include="Config\HttpConfig.cs" />
     <Compile Include="Config\StaticFileConfiguration.cs" />
     <Compile Include="Filter\CorsFilter.cs" />
-    <Compile Include="Filter\ProcessChain.cs" />
+    <Compile Include="Http\ProcessChain.cs" />
     <Compile Include="Filter\FilterRoute.cs" />
     <Compile Include="Filter\IFilter.cs" />
     <Compile Include="Common\HttpBuilder.cs" />

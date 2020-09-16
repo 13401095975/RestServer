@@ -8,7 +8,9 @@ namespace RestServer.Config
          * 监听端口，默认8080
          */
         public static int Port { get; set; } = 8080;
-
+        /**
+         * 服务器名称，对应response 头部中的Server字段的值
+         */
         public static string ServerName { get; set; } = "RestServer";
 
         /**

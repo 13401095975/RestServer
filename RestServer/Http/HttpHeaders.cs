@@ -333,5 +333,9 @@ namespace RestServer.Http
         public void SetDate(string v) {
             Add(DATE, v);
         }
+
+        //public List<string> GetStringValueList(string key) {
+        //    return Headers[key].Split(';');
+        //}
     }
 }
