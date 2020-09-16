@@ -4,7 +4,7 @@
     {
         private static ILogger logger;
         public static ILogger GetLogger() {
-            if (logger == null) {
+            if (logger != null) {
                 return logger;
             }
             logger = new ConsoleLogger();

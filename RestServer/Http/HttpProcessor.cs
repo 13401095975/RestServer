@@ -87,6 +87,11 @@ namespace RestServer.Http
             }
 
             response.Headers.SetContentLength(content.Length.ToString());
+
+            //添加通用header
+            response.Headers.SetDate(DateTime.UtcNow.ToString("r"));
+            response.Headers.SetServer(ServerConfig.ServerName);
+
             response.Data = content;
         }
 

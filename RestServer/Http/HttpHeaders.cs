@@ -316,7 +316,7 @@ namespace RestServer.Http
         }
         public void SetContentTypeWithDefaultCharset(string value)
         {
-            Add(CONTENT_TYPE, value + ";" + ServerConfig.DefaultCharsetEncoding);
+            Add(CONTENT_TYPE, value + ";" + HttpConfig.DefaultCharsetEncoding);
         }
         public void SetContentLength(string value) {
             Add(CONTENT_LENGTH, value.ToString());
@@ -326,6 +326,12 @@ namespace RestServer.Http
         }
         public void SetAllowCredentials(bool b) {
             Add(ACCESS_CONTROL_ALLOW_CREDENTIALS, b.ToString());
+        }
+        public void SetServer(string name) {
+            Add(SERVER, name);
+        }
+        public void SetDate(string v) {
+            Add(DATE, v);
         }
     }
 }

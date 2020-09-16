@@ -9,6 +9,8 @@ namespace RestServer.Config
          */
         public static int Port { get; set; } = 8080;
 
+        public static string ServerName { get; set; } = "RestServer";
+
         /**
          * 是否开启压缩，默认开启
          */

@@ -73,22 +73,22 @@ namespace RestServer.RouteHandler
 
         }
 
-        private void HandleDir(HttpRequest request, ref HttpResponse response, string local_path) {
+        private void HandleDir(HttpRequest request, ref HttpResponse response, string localPath) {
             var output = new StringBuilder();
             output.Append(string.Format("<h3> Directory: {0} </h3>",request.Path));
                         
-            foreach (var entry in Directory.GetFiles(local_path)) {                
-                var file_info = new FileInfo(entry);
+            foreach (var entry in Directory.GetFiles(localPath)) {                
+                var fileInfo = new FileInfo(entry);
 
-                var filename = file_info.Name;
+                var filename = fileInfo.Name;
                 output.Append(string.Format("<a href=\"{0}\">{1}</a> <br>", request.Path + Path.DirectorySeparatorChar.ToString() + filename,filename));                
             }
 
-            foreach (var entry in Directory.GetDirectories(local_path))
+            foreach (var entry in Directory.GetDirectories(localPath))
             {
-                var file_info = new FileInfo(entry);
+                var fileInfo = new FileInfo(entry);
 
-                var filename = file_info.Name;
+                var filename = fileInfo.Name;
                 output.Append(string.Format("<a href=\"{0}\">{1}</a> <br>", request.Path+Path.DirectorySeparatorChar.ToString()+filename, filename));
             }
             response.Headers.SetContentTypeWithDefaultCharset("text/html");
