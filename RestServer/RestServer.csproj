@@ -53,6 +53,9 @@
     <Compile Include="Attribute\WebFilterAttribute.cs" />
     <Compile Include="Attribute\RequestMappingAttribute.cs" />
     <Compile Include="ClassInstanceContext.cs" />
+    <Compile Include="Common\Compress\DeflateCompress.cs" />
+    <Compile Include="Common\Compress\GzipCompress.cs" />
+    <Compile Include="Common\Compress\HttpCompress.cs" />
     <Compile Include="Common\Logger\LoggerFactory.cs" />
     <Compile Include="Common\Logger\LoggerType.cs" />
     <Compile Include="Config\RestConfiguration.cs" />
