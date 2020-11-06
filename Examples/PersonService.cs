@@ -12,7 +12,7 @@ namespace Examples
     [Component("PersonService")]
     public class PersonService
     {
-        private ILogger logger = new ConsoleLogger();
+        private ILogger logger = LoggerFactory.GetLogger();
 
         public List<Person> GetPersonList() {
             return TestData.PersonList;

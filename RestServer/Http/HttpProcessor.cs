@@ -1,12 +1,8 @@
 ﻿
 using RestServer.Common.Compress;
 using RestServer.Config;
-using RestServer.Filter;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;

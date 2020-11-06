@@ -6,6 +6,7 @@ using RestServer.RestAttribute;
 using RestServer.RouteHandler;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 
@@ -14,6 +15,10 @@ namespace RestServer
     public class RestApplicationServer
     {
         private ILogger logger = LoggerFactory.GetLogger();
+
+        HttpServer httpServer;
+
+        Thread thread;
 
         public RestApplicationServer() {
         }
@@ -48,9 +53,9 @@ namespace RestServer
 
             filterChain.AddRouteHandler(new ApiRouteHandler(list));
 
-            HttpServer httpServer = new HttpServer(ServerConfig.Port, filterChain);
+            httpServer = new HttpServer(ServerConfig.Port, filterChain);
 
-            Thread thread = new Thread(new ThreadStart(httpServer.Listen));
+            thread = new Thread(new ThreadStart(httpServer.Listen));
             thread.Start();
             logger.Info("RestApplicationServer started complete at port:"+ServerConfig.Port);
         }
@@ -62,7 +67,8 @@ namespace RestServer
             ProcessChain filterChain = new ProcessChain();
             foreach (Assembly assembly in assemblies)
             {
-                foreach (Type t in assembly.GetTypes())
+                Type[] types = GetTypes(assembly);
+                foreach (Type t in types)
                 {
 
                     object[] attrArray = t.GetCustomAttributes(typeof(WebFilterAttribute), false);
@@ -94,7 +100,8 @@ namespace RestServer
             List<Route> list = new List<Route>();
             foreach (Assembly assembly in assemblies)
             {
-                foreach (Type t in assembly.GetTypes())
+                Type[] types = GetTypes(assembly);
+                foreach (Type t in types)
                 {
 
                     object[] attrArray = t.GetCustomAttributes(typeof(ComponentAttribute), false);
@@ -142,7 +149,8 @@ namespace RestServer
             logger.Info("auto wired component start");
             foreach (Assembly assembly in assemblies)
             {
-                foreach (Type t in assembly.GetTypes())
+                Type[] types = GetTypes(assembly);
+                foreach (Type t in types)
                 {
 
                     object[] attrArray = t.GetCustomAttributes(typeof(ComponentAttribute), false);
@@ -170,6 +178,31 @@ namespace RestServer
             }
             logger.Info("auto wired component complete");
 
+        }
+
+        private Type[] GetTypes(Assembly assembly) {
+            Type[] types;
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                types = e.Types;
+            }
+            return types.Where(t => t != null).ToArray();
+        }
+
+        public void Shutdown() {
+            httpServer.Shutdown();
+            if (thread != null) {
+                thread.Abort();
+                while ((thread.ThreadState != ThreadState.Stopped) && (thread.ThreadState != ThreadState.Aborted))
+                {
+                    Thread.Sleep(10);
+                }
+            }
+            
         }
 
     }

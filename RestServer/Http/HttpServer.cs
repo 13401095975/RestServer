@@ -11,7 +11,7 @@ namespace RestServer.Http
     public class HttpServer
     {
         #region Fields
-
+        private bool AbortSig = false;
         private int Port;
         private TcpListener Listener;
         public HttpProcessor Processor;
@@ -33,21 +33,27 @@ namespace RestServer.Http
         {
             this.Listener = new TcpListener(IPAddress.Any, this.Port);
             this.Listener.Start();
-            while (this.IsActive)
+            while (!AbortSig)
             {
-                TcpClient s = this.Listener.AcceptTcpClient();
-                Thread thread = new Thread(() =>
+                if (Listener.Pending())
                 {
-                    this.Processor.HandleClient(s);
-                });
-                thread.Start();
-                Thread.Sleep(1);
+                    TcpClient s = this.Listener.AcceptTcpClient();
+                    Thread thread = new Thread(() =>
+                    {
+                        this.Processor.HandleClient(s);
+                    });
+                    thread.Start();
+                }
+                else {
+                    Thread.Sleep(100);
+                }
+                
             }
             Listener.Stop();
         }
 
         public void Shutdown() {
-            IsActive = false;
+            AbortSig = true;
         }
 
         #endregion

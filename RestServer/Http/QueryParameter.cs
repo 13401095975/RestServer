@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 
 namespace RestServer.Http
 {
@@ -40,7 +41,14 @@ namespace RestServer.Http
                 {
                     continue;
                 }
-                map.Add(p[0], p[1]);
+                if (p[1] != null && p[1] != "")
+                {
+                    map.Add(p[0], HttpUtility.UrlDecode(p[1]));
+                }
+                else
+                {
+                    map.Add(p[0], p[1]);
+                }
             }
         }
 

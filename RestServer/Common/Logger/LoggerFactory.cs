@@ -10,5 +10,9 @@
             logger = new ConsoleLogger();
             return logger;
         }
+
+        public static void SetLogger(ILogger log) {
+            logger = log;
+        }
     }
 }

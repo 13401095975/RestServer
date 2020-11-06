@@ -44,7 +44,26 @@ namespace RestServer.Http
             for (int i=0; i< parameterInfo.Length; i++) {
                 ParameterInfo parameter = parameterInfo[i];
 
-
+                object[] attrs = parameter.GetCustomAttributes(false);
+                int count = 0;
+                foreach (object attr in attrs)
+                {
+                    count += 1;
+                    if (attr is RequestParamAttribute)
+                    {
+                        param[i] = getValueFromUrl(parameter, request);
+                    }
+                    else if (attr is RequestBodyAttribute)
+                    {
+                        param[i] = getValueFromBody(parameter, request);
+                    }
+                    else
+                    {
+                        logger.Warn("Unknown attribute:" + attr.ToString());
+                        param[i] = null;
+                    }
+                }
+                /*
                 System.Collections.Generic.IEnumerable<Attribute> enumerable = parameter.GetCustomAttributes();
                 int count = 0;
                 foreach (Attribute attr in enumerable)
@@ -62,7 +81,7 @@ namespace RestServer.Http
                         logger.Warn("Unknown attribute:" + attr.ToString());
                         param[i] = null;
                     }
-                }
+                }*/
                 /**
                  * 没有注解
                  */
