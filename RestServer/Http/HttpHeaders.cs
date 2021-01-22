@@ -327,6 +327,10 @@ namespace RestServer.Http
         public void SetAllowCredentials(bool b) {
             Add(ACCESS_CONTROL_ALLOW_CREDENTIALS, b.ToString());
         }
+        public void SetAllowOrigin(string s)
+        {
+            Add(ACCESS_CONTROL_ALLOW_ORIGIN, s);
+        }
         public void SetServer(string name) {
             Add(SERVER, name);
         }

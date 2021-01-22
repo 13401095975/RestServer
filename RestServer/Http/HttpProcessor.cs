@@ -49,10 +49,8 @@ namespace RestServer.Http
 
             outputStream.Flush();
             outputStream.Close();
-            outputStream = null;
 
             inputStream.Close();
-            inputStream = null;
 
         }
 
@@ -103,8 +101,6 @@ namespace RestServer.Http
 
             stream.Write(response.Data, 0, response.Data.Length);
         }
-
-        
 
         #endregion
 

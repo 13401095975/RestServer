@@ -37,10 +37,10 @@ namespace RestServer.Http
             {
                 if (Listener.Pending())
                 {
-                    TcpClient s = this.Listener.AcceptTcpClient();
+                    TcpClient client = this.Listener.AcceptTcpClient();
                     Thread thread = new Thread(() =>
                     {
-                        this.Processor.HandleClient(s);
+                        this.Processor.HandleClient(client);
                     });
                     thread.Start();
                 }
