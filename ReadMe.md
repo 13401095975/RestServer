@@ -9,6 +9,7 @@
 - 支持Component变量自动注入
 - 支持Component自动扫描
 - GET/POST支持查询参数，POST支持body数据
+- 支持form表单，支持文件上传
 - 注解支持
   - Component
   - WebFilter

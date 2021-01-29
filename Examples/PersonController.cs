@@ -34,8 +34,6 @@ namespace Examples
         public string Create([RequestBody] Person person)
         {
             logger.Info("person:" + person.ToString());
-            //Person s = JsonSerializer.FromJson<Person>(request.Content);
-            //personService.Create(s);
             return "ok";
 
         }
