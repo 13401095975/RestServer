@@ -5,12 +5,12 @@ namespace RestServer.Http
 {
     public class HttpRequest
     {
-        public string Url { get; set; }
-
         //Url = path+querystring
         public string Method { get; set; }
-        public string Path { get; set; } 
+        public string Url { get; set; }
         public string HttpVersion { get; set; }
+
+        public string Path { get; set; }
 
         //headers
         public HttpHeaders Headers { get; set; }
@@ -31,8 +31,6 @@ namespace RestServer.Http
                 Query = new QueryParameter(_queryString);
             }
         }
-
-        public Route Route { get; set; }
 
         public QueryParameter Query { get; set; }
 
