@@ -17,7 +17,7 @@ namespace HttpMultipartParser
 
         private readonly string[] binaryMimeTypes = { "application/octet-stream" };
 
-        private readonly byte[] stream;
+        private readonly byte[] bytes;
 
         private string boundary;
 
@@ -31,16 +31,16 @@ namespace HttpMultipartParser
 
         #region Constructors and Destructors
 
-        public StreamingMultipartFormDataParser(byte[] stream, Encoding encoding, string[] binaryMimeTypes = null)
-            : this(stream, null, encoding, binaryMimeTypes)
+        public StreamingMultipartFormDataParser(byte[] bytes, Encoding encoding, string[] binaryMimeTypes = null)
+            : this(bytes, null, encoding, binaryMimeTypes)
         {
         }
 
-        public StreamingMultipartFormDataParser(byte[] stream, string boundary = null, Encoding encoding = null, string[] binaryMimeTypes = null)
+        public StreamingMultipartFormDataParser(byte[] bytes, string boundary = null, Encoding encoding = null, string[] binaryMimeTypes = null)
         {
-            if (stream == null) { throw new ArgumentNullException(nameof(stream)); }
+            if (bytes == null) { throw new ArgumentNullException(nameof(bytes)); }
 
-            this.stream = stream;
+            this.bytes = bytes;
             this.boundary = boundary;
             Encoding = encoding ?? Encoding.UTF8;
             if (binaryMimeTypes != null)
@@ -58,7 +58,7 @@ namespace HttpMultipartParser
 
             if (boundary == null)
             {
-                boundary = DetectBoundary(stream);
+                boundary = DetectBoundary(bytes);
             }
 
             boundary = "--" + boundary;
@@ -67,7 +67,7 @@ namespace HttpMultipartParser
             boundaryBinary = Encoding.GetBytes(boundary);
             endBoundaryBinary = Encoding.GetBytes(endBoundary);
 
-            Parse(stream);
+            Parse(bytes);
         }
 
 
@@ -75,15 +75,12 @@ namespace HttpMultipartParser
 
         #region Public Properties
 
-        public int BinaryBufferSize { get; private set; }
 
         public Encoding Encoding { get; private set; }
 
         public FileStreamDelegate FileHandler { get; set; }
 
         public ParameterDelegate ParameterHandler { get; set; }
-
-        public StreamClosedDelegate StreamClosedHandler { get; set; }
 
         #endregion
 
@@ -93,7 +90,7 @@ namespace HttpMultipartParser
         {
             // Presumably the boundary is --|||||||||||||| where -- is the stuff added on to
             // the front as per the protocol and ||||||||||||| is the part we care about.
-            StreamReader reader = new StreamReader(new MemoryStream(bytes));
+            BytesReader reader = new BytesReader(bytes);
             string boundary = string.Concat(reader.ReadLine().Skip(2));
 
             return boundary;

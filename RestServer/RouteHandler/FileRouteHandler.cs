@@ -63,13 +63,13 @@ namespace RestServer.RouteHandler
             }
         }
 
-        private void HandleFile(HttpRequest request, ref HttpResponse response, string local_path) {        
-            var file_extension = Path.GetExtension(local_path);
+        private void HandleFile(HttpRequest request, ref HttpResponse response, string localPpath) {        
+            var file_extension = Path.GetExtension(localPpath);
 
             response.StatusCode = "200";
             response.StatusDescription = "Ok";
             response.Headers.SetContentType(MimeType.GetOrDefault(file_extension, "application/octet-stream"));
-            response.Data = File.ReadAllBytes(local_path);
+            response.Data = File.ReadAllBytes(localPpath);
 
         }
 

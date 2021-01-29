@@ -3,6 +3,7 @@ using RestServer.Common.Serializer;
 using RestServer.RestAttribute;
 using System;
 using System.Reflection;
+using System.Text;
 
 namespace RestServer.Http
 {
@@ -115,8 +116,14 @@ namespace RestServer.Http
 
         private object getValueFromBody(ParameterInfo parameter, HttpRequest request)
         {
+            
+            if (request.BodyBytes == null)
+            {
+                return null;
+            }
+            string content = Encoding.UTF8.GetString(request.BodyBytes);
             MethodInfo methodInfo = typeof(JsonSerializer).GetMethod("FromJson");
-            return methodInfo.MakeGenericMethod(new Type[] { parameter.ParameterType }).Invoke(null, new object[] { request.Content });
+            return methodInfo.MakeGenericMethod(new Type[] { parameter.ParameterType }).Invoke(null, new object[] { content });
         }
 
 

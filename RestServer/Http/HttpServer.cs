@@ -15,7 +15,6 @@ namespace RestServer.Http
         private int Port;
         private TcpListener Listener;
         public HttpProcessor Processor;
-        private bool IsActive = true;
         public ILogger logger { get; set; }
         #endregion
 

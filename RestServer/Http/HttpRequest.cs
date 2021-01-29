@@ -1,18 +1,22 @@
 ﻿using HttpMultipartParser;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace RestServer.Http
 {
     public class HttpRequest
     {
+        public string Url { get; set; }
+
         //Url = path+querystring
         public string Method { get; set; }
-        public string Url { get; set; }
         public string Path { get; set; } 
+        public string HttpVersion { get; set; }
 
+        //headers
+        public HttpHeaders Headers { get; set; }
+
+        //body bytes
+        public byte[] BodyBytes { get; set; }
 
         private string _queryString;
         public string QueryString
@@ -28,23 +32,11 @@ namespace RestServer.Http
             }
         }
 
-
-        public string Content { get; set; }
         public Route Route { get; set; }
-
-        public HttpHeaders Headers { get; set; }
 
         public QueryParameter Query { get; set; }
 
-        public byte[] BodyBytes { get; set; }
-
         public MultipartFormDataParser MultipartFormData { get; set; }
-
-        public StreamReader InputStream { 
-            get {
-                return new StreamReader(new MemoryStream(BodyBytes), Encoding.UTF8);
-            } 
-        }
 
         public HttpRequest()
         {
@@ -54,16 +46,15 @@ namespace RestServer.Http
 
         public override string ToString()
         {
-            if (!string.IsNullOrWhiteSpace(this.Content))
-            {
-                if (!this.Headers.Contains("Content-Length"))
-                {
-                    this.Headers.Add("Content-Length", this.Content.Length.ToString());
-                }
+            string content = "";
+            if (BodyBytes != null) {
+                content = Encoding.UTF8.GetString(BodyBytes);
             }
-            return string.Format("{0} {1} HTTP/1.0\r\n{2}\r\n\r\n{3}", this.Method, this.Url, Headers.ToString(), this.Content);
-
-
+            return string.Format("{0} {1} {2}\r\n{3}\r\n\r\n{4}", Method,
+                Url,
+                HttpVersion,
+                Headers.ToString(),
+                content);
         }
     }
 }

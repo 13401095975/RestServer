@@ -11,7 +11,13 @@ namespace RestServer.Http
         public string this[string key] {
             get
             {
-                return map[key];
+                if (map.ContainsKey(key))
+                {
+                    return map[key];
+                }
+                else {
+                    return null;
+                }
             }
         }
 
@@ -26,8 +32,9 @@ namespace RestServer.Http
         }
 
         public void Parse(string queryString) {
-            map.Clear();
-
+            if (queryString == null || queryString == String.Empty) {
+                return;
+            }
             string[] list = queryString.Split('&');
             if (list == null || list.Length == 0)
             {

@@ -192,36 +192,14 @@ namespace RestServer.Http
          * @see <a href="http://tools.ietf.org/html/rfc6454">RFC 6454</a>
          */
         public static string ORIGIN = "Origin";
-        /**
-         * The HTTP {@code Pragma} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7234#section-5.4">Section 5.4 of RFC 7234</a>
-         */
-        public static string PRAGMA = "Pragma";
-        /**
-         * The HTTP {@code Proxy-Authenticate} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7235#section-4.3">Section 4.3 of RFC 7235</a>
-         */
-        public static string PROXY_AUTHENTICATE = "Proxy-Authenticate";
-        /**
-         * The HTTP {@code Proxy-Authorization} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7235#section-4.4">Section 4.4 of RFC 7235</a>
-         */
-        public static string PROXY_AUTHORIZATION = "Proxy-Authorization";
-        /**
-         * The HTTP {@code Range} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7233#section-3.1">Section 3.1 of RFC 7233</a>
-         */
+        
         public static string RANGE = "Range";
         /**
          * The HTTP {@code Referer} header field name.
          * @see <a href="http://tools.ietf.org/html/rfc7231#section-5.5.2">Section 5.5.2 of RFC 7231</a>
          */
         public static string REFERER = "Referer";
-        /**
-         * The HTTP {@code Retry-After} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7231#section-7.1.3">Section 7.1.3 of RFC 7231</a>
-         */
-        public static string RETRY_AFTER = "Retry-After";
+
         /**
          * The HTTP {@code Server} header field name.
          * @see <a href="http://tools.ietf.org/html/rfc7231#section-7.4.2">Section 7.4.2 of RFC 7231</a>
@@ -232,51 +210,13 @@ namespace RestServer.Http
          * @see <a href="http://tools.ietf.org/html/rfc2109#section-4.2.2">Section 4.2.2 of RFC 2109</a>
          */
         public static string SET_COOKIE = "Set-Cookie";
-        /**
-         * The HTTP {@code Set-Cookie2} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc2965">RFC 2965</a>
-         */
-        public static string SET_COOKIE2 = "Set-Cookie2";
-        /**
-         * The HTTP {@code TE} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7230#section-4.3">Section 4.3 of RFC 7230</a>
-         */
-        public static string TE = "TE";
-        /**
-         * The HTTP {@code Trailer} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7230#section-4.4">Section 4.4 of RFC 7230</a>
-         */
-        public static string TRAILER = "Trailer";
-        /**
-         * The HTTP {@code Transfer-Encoding} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7230#section-3.3.1">Section 3.3.1 of RFC 7230</a>
-         */
-        public static string TRANSFER_ENCODING = "Transfer-Encoding";
-        /**
-         * The HTTP {@code Upgrade} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7230#section-6.7">Section 6.7 of RFC 7230</a>
-         */
-        public static string UPGRADE = "Upgrade";
+        
         /**
          * The HTTP {@code User-Agent} header field name.
          * @see <a href="http://tools.ietf.org/html/rfc7231#section-5.5.3">Section 5.5.3 of RFC 7231</a>
          */
         public static string USER_AGENT = "User-Agent";
-        /**
-         * The HTTP {@code Vary} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7231#section-7.1.4">Section 7.1.4 of RFC 7231</a>
-         */
-        public static string VARY = "Vary";
-        /**
-         * The HTTP {@code Via} header field name.
-         * @see <a href="http://tools.ietf.org/html/rfc7230#section-5.7.1">Section 5.7.1 of RFC 7230</a>
-         */
-        public static string VIA = "Via";
-
-        public static string WARNING = "Warning";
-
-        public static string WWW_AUTHENTICATE = "WWW-Authenticate";
-
+       
 
         private Dictionary<string, string> Headers { get; set; }
 
@@ -316,7 +256,7 @@ namespace RestServer.Http
         }
         public void SetContentTypeWithDefaultCharset(string value)
         {
-            Add(CONTENT_TYPE, value + ";" + HttpConfig.DefaultCharsetEncoding);
+            Add(CONTENT_TYPE, value + HttpConfig.CONTENT_TYPE_CHARSET_PREFIX + HttpConfig.DefaultCharsetEncoding);
         }
         public void SetContentLength(string value) {
             Add(CONTENT_LENGTH, value.ToString());
@@ -337,9 +277,5 @@ namespace RestServer.Http
         public void SetDate(string v) {
             Add(DATE, v);
         }
-
-        //public List<string> GetStringValueList(string key) {
-        //    return Headers[key].Split(';');
-        //}
     }
 }

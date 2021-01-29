@@ -165,12 +165,8 @@ namespace RestServer.Http
                 }
                 string name = line.Substring(0, separator);
                 int pos = separator + 1;
-                while ((pos < line.Length) && (line[pos] == ' '))
-                {
-                    pos++;
-                }
-
-                string value = line.Substring(pos, line.Length - pos);
+                
+                string value = line.Substring(pos, line.Length - pos).Trim();
                 headers.Add(name, value);
             }
 
@@ -191,18 +187,17 @@ namespace RestServer.Http
                     bytesLeft -= n;
                 }
 
-                content = Encoding.UTF8.GetString(bytes);
             }
 
             //List<Multipart> multiparts = new List<Multipart>();
             MultipartFormDataParser formData = null;
             if (headers.Contains("Content-Type")) {
                 string tp = headers["Content-Type"];
-                if (tp.StartsWith("multipart/form-data")) {
-
+                if (tp.StartsWith("multipart/form-data"))
+                {
                     formData = MultipartFormDataParser.Parse(bytes);
-                    
                 }
+                
             }
 
             string[] p = url.Split('?');
@@ -213,16 +208,20 @@ namespace RestServer.Http
                 path = p[0];
                 query = p[1];
             }
+            else {
+                query = content;
+            }
 
 
             return new HttpRequest()
             {
                 Method = method,
                 Url = url,
+                HttpVersion = protocolVersion,
                 Path = path,
                 QueryString = query,
                 Headers = headers,
-                Content = content,
+                //Content = content,
                 BodyBytes = bytes,
                 MultipartFormData = formData
             };

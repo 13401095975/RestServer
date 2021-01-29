@@ -19,7 +19,12 @@ namespace RestServer.Config
 
         public static string DefaultStaticFilePrefix { get; set; } = "/static";
 
-        public static string DefaultCharsetEncoding { get; set; } = "charset=utf-8";
+        /**
+	     * Prefix of the charset clause in a content type String: ";charset="
+	     */
+        public static string CONTENT_TYPE_CHARSET_PREFIX = ";charset=";
+
+        public static string DefaultCharsetEncoding { get; set; } = "utf-8";
 
     }
 }
