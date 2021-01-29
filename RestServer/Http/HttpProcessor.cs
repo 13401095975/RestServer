@@ -3,7 +3,6 @@ using HttpMultipartParser;
 using RestServer.Common.Compress;
 using RestServer.Config;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;

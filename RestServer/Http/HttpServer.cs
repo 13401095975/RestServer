@@ -1,6 +1,5 @@
 ﻿using RestServer.Common.Logger;
 using RestServer.Config;
-using RestServer.Filter;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
