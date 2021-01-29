@@ -11,7 +11,7 @@ namespace Examples
             //new RestApplicationServer().run();
            new RestApplicationServer().run(new RestConfiguration { 
                 StaticFileConfigurations = new List<StaticFileConfiguration>() { 
-                    new StaticFileConfiguration("/", @"C:\Users\13401\Documents\ShareX\Tools\"),
+                    new StaticFileConfiguration("/f", @"C:\Users\13401\Documents\ShareX\Tools\"),
            //         new StaticFileConfiguration("/f", "F:\\")
                 }
             });

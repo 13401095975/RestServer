@@ -1,7 +1,9 @@
 ﻿
+using HttpMultipartParser;
 using RestServer.Common.Compress;
 using RestServer.Config;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -173,11 +175,12 @@ namespace RestServer.Http
             }
 
             string content = null;
+            byte[] bytes = null;
             if (headers.Contains("Content-Length"))
             {
                 int totalBytes = Convert.ToInt32(headers["Content-Length"]);
                 int bytesLeft = totalBytes;
-                byte[] bytes = new byte[totalBytes];
+                bytes = new byte[totalBytes];
 
                 while (bytesLeft > 0)
                 {
@@ -189,6 +192,17 @@ namespace RestServer.Http
                 }
 
                 content = Encoding.UTF8.GetString(bytes);
+            }
+
+            //List<Multipart> multiparts = new List<Multipart>();
+            MultipartFormDataParser formData = null;
+            if (headers.Contains("Content-Type")) {
+                string tp = headers["Content-Type"];
+                if (tp.StartsWith("multipart/form-data")) {
+
+                    formData = MultipartFormDataParser.Parse(bytes);
+                    
+                }
             }
 
             string[] p = url.Split('?');
@@ -208,7 +222,9 @@ namespace RestServer.Http
                 Path = path,
                 QueryString = query,
                 Headers = headers,
-                Content = content
+                Content = content,
+                BodyBytes = bytes,
+                MultipartFormData = formData
             };
         }
 

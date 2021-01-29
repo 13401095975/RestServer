@@ -1,9 +1,12 @@
-﻿using RestServer.Common.Logger;
+﻿using HttpMultipartParser;
+using RestServer.Common.Logger;
 using RestServer.Common.Serializer;
 using RestServer.Http;
 using RestServer.RestAttribute;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 
 namespace Examples
 {
@@ -33,6 +36,25 @@ namespace Examples
             logger.Info("person:" + person.ToString());
             //Person s = JsonSerializer.FromJson<Person>(request.Content);
             //personService.Create(s);
+            return "ok";
+
+        }
+        [RequestMapping("POST", "/api/upload")]
+        public string Upload(HttpRequest request)
+        {
+            List<ParameterPart> Parameters = request.MultipartFormData.Parameters;
+            Parameters.ForEach(x =>
+            {
+                logger.Info(x.Name + ":" + x.Data);
+            });
+
+            List<FilePart> files = request.MultipartFormData.Files;
+            files.ForEach(x =>
+            {
+                logger.Info(x.Name + ":" + x.FileName);
+                File.WriteAllBytes(x.FileName, x.Data);
+            });
+            
             return "ok";
 
         }

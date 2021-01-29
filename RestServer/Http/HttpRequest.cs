@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using HttpMultipartParser;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace RestServer.Http
 {
@@ -9,6 +12,7 @@ namespace RestServer.Http
         public string Method { get; set; }
         public string Url { get; set; }
         public string Path { get; set; } 
+
 
         private string _queryString;
         public string QueryString
@@ -32,9 +36,20 @@ namespace RestServer.Http
 
         public QueryParameter Query { get; set; }
 
+        public byte[] BodyBytes { get; set; }
+
+        public MultipartFormDataParser MultipartFormData { get; set; }
+
+        public StreamReader InputStream { 
+            get {
+                return new StreamReader(new MemoryStream(BodyBytes), Encoding.UTF8);
+            } 
+        }
+
         public HttpRequest()
         {
             this.Headers = new HttpHeaders();
+            //Multiparts = new List<Multipart>();
         }
 
         public override string ToString()

@@ -66,6 +66,16 @@
     <Compile Include="Config\HttpConfig.cs" />
     <Compile Include="Config\StaticFileConfiguration.cs" />
     <Compile Include="Filter\CorsFilter.cs" />
+    <Compile Include="Http\HttpMultipartParser\ByteArrayUtils.cs" />
+    <Compile Include="Http\HttpMultipartParser\BytesReader.cs" />
+    <Compile Include="Http\HttpMultipartParser\Extensions.cs" />
+    <Compile Include="Http\HttpMultipartParser\FilePart.cs" />
+    <Compile Include="Http\HttpMultipartParser\IMultipartFormDataParser.cs" />
+    <Compile Include="Http\HttpMultipartParser\IStreamingMultipartFormDataParser.cs" />
+    <Compile Include="Http\HttpMultipartParser\MultipartFormDataParser.cs" />
+    <Compile Include="Http\HttpMultipartParser\MultipartParseException.cs" />
+    <Compile Include="Http\HttpMultipartParser\ParameterPart.cs" />
+    <Compile Include="Http\HttpMultipartParser\StreamingMultipartFormDataParser.cs" />
     <Compile Include="Http\ProcessChain.cs" />
     <Compile Include="Filter\FilterRoute.cs" />
     <Compile Include="Filter\IFilter.cs" />
