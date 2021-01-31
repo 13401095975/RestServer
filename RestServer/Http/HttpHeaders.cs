@@ -221,7 +221,10 @@ namespace RestServer.Http
         {
             get
             {
-                return Headers[name];
+                if (Headers.ContainsKey(name)) {
+                    return Headers[name];
+                }
+                return null;
             }
         }
 
@@ -248,6 +251,11 @@ namespace RestServer.Http
         {
             Add(ACCESS_CONTROL_ALLOW_ORIGIN, value);
         }
+
+        public string GetContentType() {
+            return this[CONTENT_TYPE];
+        }
+
         public void SetContentType(string value) {
             Add(CONTENT_TYPE, value);
         }

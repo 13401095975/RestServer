@@ -2,7 +2,6 @@
 using RestServer.Filter;
 using RestServer.Http;
 using RestServer.RestAttribute;
-using System;
 using System.Diagnostics;
 
 namespace Examples.Filter

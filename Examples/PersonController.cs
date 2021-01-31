@@ -1,11 +1,8 @@
 ﻿using HttpMultipartParser;
 using RestServer.Common.Logger;
-using RestServer.Common.Serializer;
 using RestServer.Http;
 using RestServer.RestAttribute;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 
 namespace Examples
@@ -23,9 +20,13 @@ namespace Examples
         {
             return personService.GetPersonList();
         }
-
+        /// <summary>
+        /// /api/person?id=xxxxx
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [RequestMapping("GET", "/api/person")]
-        public Person GetPerson([RequestParam("id")]int id)
+        public Person GetPerson([RequestParam("id")]int? id)
         {
             logger.Debug("id:"+id);
             return personService.GetPerson((int)id);
@@ -34,6 +35,14 @@ namespace Examples
         public string Create([RequestBody] Person person)
         {
             logger.Info("person:" + person.ToString());
+            return "ok";
+
+        }
+        [RequestMapping("POST", "/api/urlencode")]
+        public string ParamInBody([RequestParam("name")] string name, [RequestParam("age")] int? age)
+        {
+            logger.Info("name:" + name);
+            logger.Info("age:" + age);
             return "ok";
 
         }

@@ -6,6 +6,8 @@ using RestServer.RestAttribute;
 using RestServer.RouteHandler;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -23,15 +25,24 @@ namespace RestServer
         public RestApplicationServer() {
         }
 
-
         public void run() {
             run(null);
         }
 
         public void run(RestConfiguration configuration) {
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             logger.Info("RestApplicationServer starting...");
 
-            Assembly[] assemblyArray = AppDomain.CurrentDomain.GetAssemblies();
+            var dllAssemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
+                        .Select(x => Assembly.Load(AssemblyName.GetAssemblyName(x)));
+
+            var exeAssemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.exe")
+                        .Select(x => Assembly.Load(AssemblyName.GetAssemblyName(x)));
+
+            Assembly[] assemblyArray = dllAssemblies.Concat(exeAssemblies).ToArray();
             ProcessChain filterChain = AutoFilterScan(assemblyArray);
 
             List<Route> list = AutoComponentScan(assemblyArray);
@@ -41,13 +52,13 @@ namespace RestServer
             if (configuration == null || configuration.StaticFileConfigurations == null || configuration.StaticFileConfigurations.Count == 0)
             {
                 filterChain.AddRouteHandler(new FileRouteHandler());
-                logger.Info("add default static file mapping " + HttpConfig.DefaultStaticFilePrefix + " to " + HttpConfig.DefaultServerRoot);
+                logger.Info("Add default static file mapping [" + HttpConfig.DefaultStaticFilePrefix + "] to " + HttpConfig.DefaultServerRoot);
             }
             else {
                 foreach (StaticFileConfiguration staticFileConfiguration in configuration.StaticFileConfigurations)
                 {
                     filterChain.AddRouteHandler(new FileRouteHandler(staticFileConfiguration));
-                    logger.Info("add static file mapping " + staticFileConfiguration.Prefix + " to " + staticFileConfiguration.BaseRoot);
+                    logger.Info("Add static file mapping [" + staticFileConfiguration.Prefix + "] to " + staticFileConfiguration.BaseRoot);
                 }
             }
 
@@ -58,12 +69,15 @@ namespace RestServer
             thread = new Thread(new ThreadStart(httpServer.Listen));
             thread.Start();
             logger.Info("RestApplicationServer started complete at port:"+ServerConfig.Port);
+
+            stopwatch.Stop();
+            logger.Info("Started Application in " + (stopwatch.ElapsedMilliseconds).ToString() + " millseconds");
         }
 
 
         private ProcessChain AutoFilterScan(IEnumerable<Assembly> assemblies)
         {
-            logger.Info("auto filter scan start");
+            logger.Info("Auto filter scan start");
             ProcessChain filterChain = new ProcessChain();
             foreach (Assembly assembly in assemblies)
             {
@@ -81,7 +95,7 @@ namespace RestServer
                     {
 
                         WebFilterAttribute attribute = item as WebFilterAttribute;
-                        logger.Info("Mapping filter: " + attribute.Prefix + " onto " + t.FullName);
+                        logger.Info("Mapping filter("+attribute.Order+"): [" + attribute.Prefix + "] onto [" + t.FullName + "]");
                         IFilter filter = (IFilter)ClassInstanceContext.GetInstance(t);
 
                         filterChain.AddFilter(attribute.Order, attribute.Prefix, filter);
@@ -89,14 +103,14 @@ namespace RestServer
 
                 }
             }
-            logger.Info("auto filter scan complete");
+            logger.Info("Auto filter scan complete");
             return filterChain;
 
         }
 
         private List<Route> AutoComponentScan(IEnumerable<Assembly> assemblies)
         {
-            logger.Info("auto component scan start");
+            logger.Info("Auto component scan start");
             List<Route> list = new List<Route>();
             foreach (Assembly assembly in assemblies)
             {
@@ -111,7 +125,7 @@ namespace RestServer
                     }
 
                     ClassInstanceContext.AddBean(t);
-                    logger.Debug("add bean:"+t.FullName);
+                    logger.Debug("Add bean:"+t.FullName);
 
                     MethodInfo[] methodInfos = t.GetMethods();
                     foreach (var methodInfo in methodInfos)
@@ -130,7 +144,7 @@ namespace RestServer
                             route.method = methodInfo;
                             route.parameterInfo = parmInfo;
 
-                            logger.Info("Mapped " + route.Method + " " + route.Path + " onto " + t.FullName + "." + methodInfo.Name);
+                            logger.Info("Mapped " + route.Method + " [" + route.Path + "] onto [" + t.FullName + "." + methodInfo.Name + "]");
 
                             list.Add(route);
                         }
@@ -139,14 +153,14 @@ namespace RestServer
 
                 }
             }
-            logger.Info("auto component complete");
+            logger.Info("Auto component complete");
             return list;
 
         }
 
         private void AutowiredScan(IEnumerable<Assembly> assemblies)
         {
-            logger.Info("auto wired component start");
+            logger.Info("Auto wired component start");
             foreach (Assembly assembly in assemblies)
             {
                 Type[] types = GetTypes(assembly);
@@ -171,12 +185,12 @@ namespace RestServer
                             object wiredInstance = ClassInstanceContext.GetInstance(tp);
                             item.SetValue(instance, wiredInstance);
 
-                            logger.Debug("autowired into " + t.FullName + "." + item.Name + "=" + tp.FullName);
+                            logger.Debug("Autowired into " + t.FullName + "." + item.Name + "=" + tp.FullName);
                         }
                     }
                 }
             }
-            logger.Info("auto wired component complete");
+            logger.Info("Auto wired component complete");
 
         }
 
@@ -197,7 +211,7 @@ namespace RestServer
             httpServer.Shutdown();
             if (thread != null) {
                 thread.Abort();
-                while ((thread.ThreadState != ThreadState.Stopped) && (thread.ThreadState != ThreadState.Aborted))
+                while ((thread.ThreadState != System.Threading.ThreadState.Stopped) && (thread.ThreadState != System.Threading.ThreadState.Aborted))
                 {
                     Thread.Sleep(10);
                 }

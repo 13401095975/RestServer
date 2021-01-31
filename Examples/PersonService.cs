@@ -1,11 +1,6 @@
 ﻿using RestServer.Common.Logger;
-using RestServer.Common.Serializer;
 using RestServer.RestAttribute;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Examples
 {

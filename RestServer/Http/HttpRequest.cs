@@ -16,7 +16,27 @@ namespace RestServer.Http
         public HttpHeaders Headers { get; set; }
 
         //body bytes
-        public byte[] BodyBytes { get; set; }
+        private byte[] _bodyBytes;
+        public byte[] BodyBytes { 
+            get { return _bodyBytes; }
+            set {
+                _bodyBytes = value;
+
+                if(Method == HttpMethod.GET.ToString())
+                {
+                    return;
+                }
+                string tp = Headers.GetContentType();
+                if (tp != null)
+                {
+                    if (tp.StartsWith("application/x-www-form-urlencoded"))
+                    {
+                        Query.Parse(Encoding.UTF8.GetString(_bodyBytes));
+                    }
+
+                }
+            }
+        }
 
         private string _queryString;
         public string QueryString
@@ -28,7 +48,7 @@ namespace RestServer.Http
             set
             {
                 _queryString = value;
-                Query = new QueryParameter(_queryString);
+                Query.Parse(_queryString);
             }
         }
 
@@ -39,6 +59,7 @@ namespace RestServer.Http
         public HttpRequest()
         {
             this.Headers = new HttpHeaders();
+            Query = new QueryParameter();
             //Multiparts = new List<Multipart>();
         }
 
