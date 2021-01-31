@@ -64,25 +64,7 @@ namespace RestServer.Http
                         param[i] = null;
                     }
                 }
-                /*
-                System.Collections.Generic.IEnumerable<Attribute> enumerable = parameter.GetCustomAttributes();
-                int count = 0;
-                foreach (Attribute attr in enumerable)
-                {
-                    count += 1;
-                    if (attr is RequestParamAttribute)
-                    {
-                        param[i] = getValueFromUrl(parameter, request);
-                    }
-                    else if (attr is RequestBodyAttribute)
-                    {
-                        param[i] = getValueFromBody(parameter, request);
-                    }
-                    else {
-                        logger.Warn("Unknown attribute:" + attr.ToString());
-                        param[i] = null;
-                    }
-                }*/
+               
                 /**
                  * 没有注解
                  */
