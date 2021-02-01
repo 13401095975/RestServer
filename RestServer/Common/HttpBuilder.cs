@@ -19,7 +19,6 @@ namespace RestServer.Common
 
         public static HttpResponse NotFound()
         {
-            //string content = File.ReadAllText("Resources/Pages/404.html");
 
             return new HttpResponse()
             {

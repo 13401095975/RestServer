@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RestServer.Config
+﻿namespace RestServer.Config
 {
     public class ServerConfig
     {
