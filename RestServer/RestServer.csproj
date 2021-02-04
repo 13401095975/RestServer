@@ -45,7 +45,6 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -57,7 +56,6 @@
     <Compile Include="Attribute\WebFilterAttribute.cs" />
     <Compile Include="Attribute\RequestMappingAttribute.cs" />
     <Compile Include="ClassInstanceContext.cs" />
-    <Compile Include="Common\Compress\DeflateCompress.cs" />
     <Compile Include="Common\Compress\GzipCompress.cs" />
     <Compile Include="Common\Compress\HttpCompress.cs" />
     <Compile Include="Common\Logger\LoggerFactory.cs" />

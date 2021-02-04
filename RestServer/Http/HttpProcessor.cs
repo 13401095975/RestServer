@@ -1,6 +1,7 @@
 ﻿
 using HttpMultipartParser;
 using RestServer.Common.Compress;
+using RestServer.Common.Logger;
 using RestServer.Config;
 using System;
 using System.IO;
@@ -16,6 +17,8 @@ namespace RestServer.Http
         #region Fields
 
         private ProcessChain processChain { get; set; }
+
+        private ILogger logger = LoggerFactory.GetLogger();
 
         #endregion
 
@@ -43,15 +46,22 @@ namespace RestServer.Http
             HttpRequest request = ParseRequest(inputStream);
             HttpResponse response = new HttpResponse();
 
-            processChain.Handle(request, ref response);
+            try
+            {
+                FormatHttpResponse(request, ref response);
+                WriteResponse(outputStream, response);
+            }
+            catch (Exception e)
+            {
+                logger.Warn("error occur:"+e.ToString());
+            }
+            finally
+            {
+                outputStream.Flush();
+                outputStream.Close();
 
-            FormatHttpResponse(request, ref response);
-            WriteResponse(outputStream, response);
-
-            outputStream.Flush();
-            outputStream.Close();
-
-            inputStream.Close();
+                inputStream.Close();
+            }
 
         }
 

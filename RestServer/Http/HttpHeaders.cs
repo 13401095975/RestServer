@@ -1,6 +1,7 @@
 ﻿using RestServer.Config;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace RestServer.Http
 {
@@ -244,7 +245,19 @@ namespace RestServer.Http
 
         public override string ToString()
         {
-            return string.Join("\r\n", this.Headers.Select(x => string.Format("{0}: {1}", x.Key, x.Value)));
+            StringBuilder sb = new StringBuilder();
+            bool isFirst = true;
+            foreach (var x in Headers)
+            {
+                if (!isFirst)
+                {
+                    sb.Append("\r\n");
+                }
+                sb.Append(string.Format("{0}: {1}", x.Key, x.Value));
+                isFirst = false;
+            }
+            return sb.ToString();
+            //return string.Join("\r\n", (string[])this.Headers.Select(x => string.Format("{0}: {1}", x.Key, x.Value)));
         }
 
         public void SetAllowedOrigin(string value)
@@ -272,6 +285,16 @@ namespace RestServer.Http
         public void SetAllowCredentials(bool b) {
             Add(ACCESS_CONTROL_ALLOW_CREDENTIALS, b.ToString());
         }
+
+        public void SetAllowHeaders(string s)
+        {
+            Add(ACCESS_CONTROL_ALLOW_HEADERS, s);
+        }
+        public void SetAllowMethods(string s)
+        {
+            Add(ACCESS_CONTROL_ALLOW_METHODS, s);
+        }
+
         public void SetAllowOrigin(string s)
         {
             Add(ACCESS_CONTROL_ALLOW_ORIGIN, s);

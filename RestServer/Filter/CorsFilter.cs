@@ -10,6 +10,8 @@ namespace RestServer.Filter
         {
             response.Headers.SetAllowCredentials(true);
             response.Headers.SetAllowOrigin("*");
+            response.Headers.SetAllowHeaders("*");
+            response.Headers.SetAllowMethods("*");
             if (request.Method.Equals(HttpMethod.OPTIONS.ToString()))
             {
                 return;
