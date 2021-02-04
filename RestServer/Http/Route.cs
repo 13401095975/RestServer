@@ -85,15 +85,32 @@ namespace RestServer.Http
         }
         private object getValueFromUrl(ParameterInfo parameter, HttpRequest request) {
             Type t = parameter.ParameterType;
-            if (t == typeof(int) || t == typeof(long))
+            if (isIntegerType(t))
             {
                 return request.Query.GetIntValue(parameter.Name);
             }
-            else if (t == typeof(string))
+            else if (isStringType(t))
             {
                 return request.Query.GetStringValue(parameter.Name);
             }
             return null;
+        }
+
+        private bool isIntegerType(Type t) {
+            return t == typeof(int)
+                || t == typeof(int?)
+                || t == typeof(Int32)
+                || t == typeof(UInt32)
+                || t == typeof(Int64)
+                || t == typeof(UInt64)
+                || t == typeof(long);
+        }
+
+        private bool isStringType(Type t)
+        {
+            return t == typeof(string)
+                || t == typeof(String)
+                || t == typeof(string);
         }
 
         private object getValueFromBody(ParameterInfo parameter, HttpRequest request)
